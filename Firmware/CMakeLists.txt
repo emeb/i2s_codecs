@@ -20,6 +20,7 @@ add_executable(rp2040_i2s_test
 	aic3101.c
 	nau88c22.c
 	sgtl5000.c
+	uda1345.c
 	audio.c
 	led.c
 	button.c

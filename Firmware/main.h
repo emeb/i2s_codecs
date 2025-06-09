@@ -9,9 +9,10 @@
 #include "pico/stdlib.h"
 
 //#define CODEC_WM8731
-#define CODEC_AIC3101
+//#define CODEC_AIC3101
 //#define CODEC_NAU88C22
 //#define CODEC_SGTL5000
+#define CODEC_UDA1345
 
 void my_sleep_ms(uint64_t ms);
 

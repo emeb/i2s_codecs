@@ -26,6 +26,7 @@
 #include "aic3101.h"
 #include "nau88c22.h"
 #include "sgtl5000.h"
+#include "uda1345.h"
 #include "audio.h"
 #include "led.h"
 #include "button.h"
@@ -71,9 +72,9 @@ int main()
 {
 	int i;
 	bool sysclk_stat;
-	uint64_t led_time;
+	uint64_t led_time, cmd_time;
 	pico_unique_board_id_t id_out;
-	uint8_t codec_err = 0;
+	uint8_t codec_err = 0, cmd = 0;
 	
 	/* set sysclk prior to init serial */
 	//sysclk_stat = set_sys_clock_khz(TARGET_SYSCLK, false);
@@ -160,6 +161,16 @@ int main()
 		printf("SGTL5000 Codec Init Failed...\n");
 		codec_err = 1;
 	}
+#elif defined(CODEC_UDA1345)
+	if(!UDA1345_Init())
+	{
+		printf("UDA1345 Codec Initialized\n");
+	}
+	else
+	{
+		printf("UDA1345 Codec Init Failed...\n");
+		codec_err = 1;
+	}
 #else
 #error "Please define a codec in main.h"
 #endif
@@ -183,6 +194,7 @@ int main()
 	
 	/* loop here forever */
 	printf("Looping\n\n");
+	cmd_time = time_us_64() + 500000;
     while(true)
     {
 		/* periodic LED toggle */
@@ -210,6 +222,16 @@ int main()
 			bt_idx = 0;
 			led_time = time_us_64() + 10000 * blink_time[state][bt_idx++];
 			LEDOn();
+		}
+		
+		/* periodic Codec cmd */
+		if(time_us_64() >= cmd_time)
+		{
+			cmd_time = time_us_64() + 50000;
+			//UDA1345_Volume(cmd);
+			//UDA1345_Mute(cmd);
+			//cmd = cmd ^ 1;
+			cmd++;
 		}
 	}
 }
