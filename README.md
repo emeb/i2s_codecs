@@ -1,4 +1,8 @@
 # i2s_codecs
+
+![photograph of the rp2040_i2s_tester board held in a vise on the workbench](docs/rp2040_i2s_tester.png)
+
+## Abstract
 This repository is a collection of hardware and software for evaluating I2S codecs
 for use in digital audio projects. I've been using codecs for personal and commercial
 applications for more than a decade now and I've seen a lot of them come and go. Recently
